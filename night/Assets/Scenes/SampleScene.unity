@@ -4678,8 +4678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ca67f113f54464f839627f7011649b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  special: 20
+  health: 40
+  special: 25
   defence: 0
   speed: 0
   hBar: {fileID: 840114188}
@@ -6506,8 +6506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ca67f113f54464f839627f7011649b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  special: 20
+  health: 20
+  special: 60
   defence: 0
   speed: 0
   hBar: {fileID: 114389230}
@@ -7731,7 +7731,6 @@ GameObject:
   - component: {fileID: 1920698641}
   - component: {fileID: 1920698643}
   - component: {fileID: 1920698642}
-  - component: {fileID: 1920698644}
   m_Layer: 5
   m_Name: HUD Upper
   m_TagString: Untagged
@@ -7796,20 +7795,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920698640}
   m_CullTransparentMesh: 1
---- !u!114 &1920698644
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1920698640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9e477737a3272c42a47ddf28d4b63bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  game: {fileID: 0}
-  enumb: 0
 --- !u!1 &1944850426
 GameObject:
   m_ObjectHideFlags: 0
@@ -7962,7 +7947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enumb: 1
-  upper: {fileID: 0}
+  upper: {fileID: 1920698640}
 --- !u!1 &1963842512
 GameObject:
   m_ObjectHideFlags: 0

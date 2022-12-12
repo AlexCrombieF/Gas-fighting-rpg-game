@@ -8,10 +8,9 @@ public class character : MonoBehaviour
     RectTransform rect;
     Vector2 pos;
 
-    public int health = 50;
-    int mHealth;
-    public int special = 20;
-    int mSpecial;
+    public int health = 50;     int mHealth;
+    public int special = 20;    int mSpecial;
+    public int atk;
     public int defence;
     public int speed;
 

@@ -5,7 +5,11 @@ using UnityEngine.UI;
 
 public class enemyController : MonoBehaviour
 {
-    public int health = 30;
+    public int health;
+    int mHealth;
+    public int atk;
+    public int defence;
+    public int speed;
 
     Slider hBar;
     Text hlt;
@@ -14,15 +18,18 @@ public class enemyController : MonoBehaviour
 
     void Start()
     {
+        mHealth = health;
     }
 
     void Update()
     {
         if (created){
             string hlts = health.ToString();
-            hlt.text = hlts + "/30";
+            string mhlts = mHealth.ToString();
+            hlt.text = hlts + "/" + mhlts;
 
             hBar.value = health;
+            hBar.maxValue = mHealth;
         }
     }
     
@@ -31,8 +38,8 @@ public class enemyController : MonoBehaviour
     }
 
     public void setHealthBar(GameObject healthbar){
-        hBar = healthbar.GetComponentsInChildren<Enemyhealth>();
-        hlt = healthbar.GetComponentsInChildren<enemyhealth>();
+        hBar = healthbar.GetComponentInChildren(typeof(Slider)) as Slider;
+        hlt = healthbar.GetComponentInChildren(typeof(Text)) as Text;
         created = true;
     }
 }
