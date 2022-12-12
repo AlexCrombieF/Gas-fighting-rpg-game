@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour
         }
         currentEnemy = enemies[0];
         if (enumb == 1){
-            healthbs[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-440, -920);
+            healthbs[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-440, -950);
             healthbs[0].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
             healthbs[0].transform.localScale = new Vector2(1, 2);
         }
