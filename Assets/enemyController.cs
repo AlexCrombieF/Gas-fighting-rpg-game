@@ -6,18 +6,22 @@ using UnityEngine.UI;
 public class enemyController : MonoBehaviour
 {
     public int health = 30;
-
-    GameObject c1;
+    string name = "Enemy";
 
     public Slider hBar;
+    //public Text title;
+    public Text hlt;
 
     void Start()
     {
-        
     }
 
     void Update()
     {
+        string hlts = health.ToString();
+        hlt.text = hlts + "/30";
+
+        //title.text = name;
         hBar.value = health;
     }
     
