@@ -31,8 +31,8 @@ public class enemyController : MonoBehaviour
     }
 
     public void setHealthBar(GameObject healthbar){
-        hBar = healthbar.GetComponentsInChildren<Enemyhealth>();
-        hlt = healthbar.GetComponentsInChildren<enemyhealth>();
+        hBar = healthbar.GetComponentInChildren(typeof(Slider)) as Slider;
+        hlt = healthbar.GetComponentInChildren(typeof(Text)) as Text;
         created = true;
     }
 }
