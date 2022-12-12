@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class enemyController : MonoBehaviour
 {
     public int health = 30;
-    string name = "Enemy";
 
-    public Slider hBar;
-    //public Text title;
-    public Text hlt;
+    Slider hBar;
+    Text hlt;
+
+    bool created = false;
 
     void Start()
     {
@@ -18,14 +18,21 @@ public class enemyController : MonoBehaviour
 
     void Update()
     {
-        string hlts = health.ToString();
-        hlt.text = hlts + "/30";
+        if (created){
+            string hlts = health.ToString();
+            hlt.text = hlts + "/30";
 
-        //title.text = name;
-        hBar.value = health;
+            hBar.value = health;
+        }
     }
     
     public void attack(GameObject enemy){
         enemy.GetComponent<character>().health -= 5;
+    }
+
+    public void setHealthBar(GameObject healthbar){
+        hBar = healthbar.GetChild<Enemyhealth>();
+        hlt = healthbar.GetChild<enemyhealth>();
+        created = true;
     }
 }

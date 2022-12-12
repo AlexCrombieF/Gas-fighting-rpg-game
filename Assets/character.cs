@@ -9,7 +9,11 @@ public class character : MonoBehaviour
     Vector2 pos;
 
     public int health = 50;
-    int special = 20;
+    int mHealth;
+    public int special = 20;
+    int mSpecial;
+    public int defence;
+    public int speed;
 
     public Slider hBar;
     public Slider sBar;
@@ -24,6 +28,11 @@ public class character : MonoBehaviour
         rect = GetComponent<RectTransform>();
         pos = new Vector2(0, -250);
         nSelected = outline.GetComponent<RawImage>().texture;
+
+        mHealth = health;
+        hBar.maxValue = mHealth;
+        mSpecial = special;
+        sBar.maxValue = mSpecial;
     }
 
     void Update(){
@@ -32,9 +41,11 @@ public class character : MonoBehaviour
         hBar.value = health;
         sBar.value = special;
         string healths = health.ToString();
-        hlt.text = healths + "/50";
+        string mhealths = mHealth.ToString();
+        hlt.text = healths + "/" + mhealths;
         string specials = special.ToString();
-        sp.text = specials + "/20";
+        string mspecials = mSpecial.ToString();
+        sp.text = specials + "/" + mspecials;
     }
 
 
@@ -42,11 +53,11 @@ public class character : MonoBehaviour
         var damage = Random.Range(2, 8);
         enemy.GetComponent<enemyController>().health -= damage;
 
-        if (special < 19){
+        if (special < mSpecial - 1){
             special += 2;
         }
         else{
-            special = 20;
+            special = mSpecial;
         }
     }
     public void specialAttack(GameObject enemy){

@@ -7,26 +7,46 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
+    public int enumb = 1;
+
+    public GameObject upper;
+
+    GameObject[] enemies;
+    GameObject[] healthbs;
+
     GameObject c1;
     GameObject c2;
     GameObject c3;
     GameObject c4;
 
-    GameObject enemy;
+    GameObject enemy1;
+    GameObject enemy2;
+    GameObject enemy3;
+    GameObject enemy4;
+
     GameObject current;
+    GameObject currentEnemy;
     GameObject targ;
 
     bool pTurn = true;
     int currentTurn = 1;
 
     void Start(){
+        for (int i = 0; i <= enumb; i++){
+            enemies[i] = Instantiate(Resources.Load("Enemy")) as GameObject;
+            healthbs[i] = Instantiate(Resources.Load("enemy healthbar")) as GameObject;
+            healthbs[i].transform.SetParent(upper.transform);
+        }
+        if (enumb == 1){
+            enemies[0].GetComponent<enemyController>().setHealthBar(healthbs[0]);
+        }
+        currentEnemy = enemies[0];
+
         c1 = GameObject.Find("C1 menu");
         c2 = GameObject.Find("C2 menu");
         c3 = GameObject.Find("C3 menu");
         c4 = GameObject.Find("C4 menu");
         current = c1;
-
-        enemy = GameObject.Find("Enemy");
     }
 
 
@@ -63,18 +83,18 @@ public class GameController : MonoBehaviour
             if (target == 2){targ = c2;}
             if (target == 3){targ = c3;}
             if (target == 4){targ = c4;}
-            enemy.GetComponent<enemyController>().attack(targ);
+            enemy1.GetComponent<enemyController>().attack(targ);
             pTurn = true;
         }
     }
     
     public void pAttack(){
-        current.GetComponent<character>().attack(enemy);
+        current.GetComponent<character>().attack(enemy1);
         currentTurn += 1;
     }
 
     public void pSpecial(){
-        current.GetComponent<character>().specialAttack(enemy);
+        current.GetComponent<character>().specialAttack(enemy1);
         currentTurn += 1;
     }
 }
