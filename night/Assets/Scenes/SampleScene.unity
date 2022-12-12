@@ -4678,8 +4678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ca67f113f54464f839627f7011649b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  special: 20
+  health: 40
+  special: 25
   defence: 0
   speed: 0
   hBar: {fileID: 840114188}
@@ -6506,8 +6506,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ca67f113f54464f839627f7011649b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  special: 20
+  health: 20
+  special: 60
   defence: 0
   speed: 0
   hBar: {fileID: 114389230}
