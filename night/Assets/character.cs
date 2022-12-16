@@ -21,7 +21,10 @@ public class character : MonoBehaviour
 
     public GameObject outline;
     public Texture selected;
+    public Texture invalid;
     Texture nSelected;
+
+    int wait = 10;
 
     void Start(){
         rect = GetComponent<RectTransform>();
@@ -35,6 +38,7 @@ public class character : MonoBehaviour
     }
 
     void Update(){
+        wait++;
         rect.anchoredPosition = pos;
 
         hBar.value = health;
@@ -60,15 +64,23 @@ public class character : MonoBehaviour
         }
     }
     public void specialAttack(GameObject enemy){
-        var damage = Random.Range(4, 16);
-        enemy.GetComponent<enemyController>().health -= damage;
-        special -= 5;
+        if (special > 4){
+            var damage = Random.Range(4, 16);
+            enemy.GetComponent<enemyController>().health -= damage;
+            special -= 5;
+        }
+        else{
+            outline.GetComponent<RawImage>().texture = invalid;
+            wait = 0;
+        }
     }
 
 
     public void startTurn(){
-        pos = new Vector2(pos.x, -250);
-        outline.GetComponent<RawImage>().texture = selected;
+        if (wait > 10){
+            pos = new Vector2(pos.x, -250);
+            outline.GetComponent<RawImage>().texture = selected;
+        }
     }
     public void endTurn(){
         pos = new Vector2(pos.x, -575);

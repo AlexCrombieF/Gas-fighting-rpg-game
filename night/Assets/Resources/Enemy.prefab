@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7299886814431320669}
+  - component: {fileID: 3175668020840375889}
   - component: {fileID: 7299886814431320658}
   - component: {fileID: 7299886814431320659}
   - component: {fileID: 7299886814431320656}
@@ -20,20 +20,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7299886814431320669
-Transform:
+--- !u!224 &3175668020840375889
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7299886814431320657}
   m_LocalRotation: {x: -0.22003405, y: 0.31308934, z: -0.07481174, w: 0.9208492}
-  m_LocalPosition: {x: -2.32, y: 0.9, z: -4.67}
+  m_LocalPosition: {x: 0, y: 0, z: -4.67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -21.001, y: 40.761, z: -17.168}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -2.32, y: 0.9}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!33 &7299886814431320658
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -109,3 +114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  atk: 0
+  defence: 0
+  speed: 0
