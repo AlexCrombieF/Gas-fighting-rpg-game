@@ -119,28 +119,56 @@ public class GameController : MonoBehaviour
     void FixedUpdate(){
         wait++;
         back();
+        aliveEnemies = 0;
+        foreach (GameObject i in enemies){
+            if(i != null){
+                aliveEnemies++;
+            }
+        }
+        Debug.Log(aliveEnemies.ToString());
+
         if (selected){
             eselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -850);
         }
         if (pTurn){
             if (currentTurn == 1){
-                c1.GetComponent<character>().startTurn();
-                current = c1;
+                if (c1.GetComponent<character>().health <= 0){
+                    currentTurn++;
+                }
+                else{
+                    c1.GetComponent<character>().startTurn();
+                    current = c1;
+                }
             }
             if (currentTurn == 2){
+                if (c2.GetComponent<character>().health <= 0){
+                    currentTurn++;
+                }
+                else{
+                    c2.GetComponent<character>().startTurn();
+                    current = c2;
+                }
                 c1.GetComponent<character>().endTurn();
-                c2.GetComponent<character>().startTurn();
-                current = c2;
             }
             if (currentTurn == 3){
+                if (c3.GetComponent<character>().health <= 0){
+                    currentTurn++;
+                }
+                else{
+                    c3.GetComponent<character>().startTurn();
+                    current = c3;
+                }
                 c2.GetComponent<character>().endTurn();
-                c3.GetComponent<character>().startTurn();
-                current = c3;
             }
             if (currentTurn == 4){
+                if (c4.GetComponent<character>().health <= 0){
+                    currentTurn++;
+                }
+                else{
+                    c4.GetComponent<character>().startTurn();
+                    current = c4;
+                }
                 c3.GetComponent<character>().endTurn();
-                c4.GetComponent<character>().startTurn();
-                current = c4;
             }
             if (currentTurn == 5){
                 c4.GetComponent<character>().endTurn();
@@ -149,13 +177,21 @@ public class GameController : MonoBehaviour
             }
         }
         else{
-            var target = Random.Range(1, 4);
-            if (target == 1){targ = c1;}
-            if (target == 2){targ = c2;}
-            if (target == 3){targ = c3;}
-            if (target == 4){targ = c4;}
-            currentEnemy.GetComponent<enemyController>().attack(targ);
-            pTurn = true;
+            targ = c1;
+            for (int i = 0; i < aliveEnemies; i++){
+                    var target = Random.Range(1, 4);
+                    if (target == 1){targ = c1;}
+                    if (target == 2){targ = c2;}
+                    if (target == 3){targ = c3;}
+                    if (target == 4){targ = c4;}
+                    if (targ.GetComponent<character>().health > 0){
+                        currentEnemy.GetComponent<enemyController>().attack(targ);
+                        pTurn = true;
+                    }
+                    else{
+                        aliveEnemies++;
+                    }
+            }
         }
     }
     
@@ -211,8 +247,15 @@ public class GameController : MonoBehaviour
     }
 
     void selectEnemy(){
-        eselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -250);
-        selected = false;
+        if (aliveEnemies > 1){
+            eselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -250);
+            selected = false;
+        }
+        else{
+            currentEnemy = enemies[0];
+            selected = true;
+            control();
+        }
     }
 
     void control(){

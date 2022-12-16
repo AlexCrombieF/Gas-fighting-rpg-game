@@ -13,6 +13,7 @@ public class enemyController : MonoBehaviour
 
     Slider hBar;
     Text hlt;
+    GameObject h;
 
     bool created = false;
 
@@ -23,13 +24,19 @@ public class enemyController : MonoBehaviour
 
     void Update()
     {
-        if (created){
-            string hlts = health.ToString();
-            string mhlts = mHealth.ToString();
-            hlt.text = hlts + "/" + mhlts;
+        if (health >= 0){
+            if (created){
+                string hlts = health.ToString();
+                string mhlts = mHealth.ToString();
+                hlt.text = hlts + "/" + mhlts;
 
-            hBar.value = health;
-            hBar.maxValue = mHealth;
+                hBar.value = health;
+                hBar.maxValue = mHealth;
+            }
+        }
+        else{
+            Destroy(h.gameObject);
+            Destroy(this.gameObject);
         }
     }
     
@@ -40,6 +47,7 @@ public class enemyController : MonoBehaviour
     public void setHealthBar(GameObject healthbar){
         hBar = healthbar.GetComponentInChildren(typeof(Slider)) as Slider;
         hlt = healthbar.GetComponentInChildren(typeof(Text)) as Text;
+        h = healthbar;
         created = true;
     }
 }
