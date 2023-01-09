@@ -16,18 +16,27 @@ public class GameController : MonoBehaviour
     public Texture invalid;
     Texture normal;
 
+    public Text itemL1;
+    public Text itemL2;
+
     GameObject[] enemies = new GameObject[4];
     GameObject[] healthbs = new GameObject[4];
+
+    IDictionary<string, int> items = new Dictionary<string, int>();
 
     GameObject c1;
     GameObject c2;
     GameObject c3;
     GameObject c4;
 
+    GameObject iMenu;
+
     GameObject eselect;
+    GameObject pselect;
 
     GameObject current;
     GameObject currentEnemy;
+    GameObject currentPlayer;
     GameObject targ;
 
     bool pTurn = true;
@@ -44,8 +53,13 @@ public class GameController : MonoBehaviour
         c2 = GameObject.Find("C2 menu");
         c3 = GameObject.Find("C3 menu");
         c4 = GameObject.Find("C4 menu");
+        iMenu = GameObject.Find("ItemMenu");
         eselect = GameObject.Find("Enemy select");
+        pselect = GameObject.Find("Player select");
         current = c1;
+
+        items.Add("Potions", 3);
+        items.Add("Elixer", 2);
 
         normal = eselect.GetComponent<RawImage>().texture;
         
@@ -125,49 +139,28 @@ public class GameController : MonoBehaviour
                 aliveEnemies++;
             }
         }
-        Debug.Log(aliveEnemies.ToString());
 
         if (selected){
             eselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -850);
         }
         if (pTurn){
             if (currentTurn == 1){
-                if (c1.GetComponent<character>().health <= 0){
-                    currentTurn++;
-                }
-                else{
-                    c1.GetComponent<character>().startTurn();
-                    current = c1;
-                }
+                if (c1.GetComponent<character>().health <= 0){ currentTurn++; }
+                else{ c1.GetComponent<character>().startTurn(); current = c1; }
             }
             if (currentTurn == 2){
-                if (c2.GetComponent<character>().health <= 0){
-                    currentTurn++;
-                }
-                else{
-                    c2.GetComponent<character>().startTurn();
-                    current = c2;
-                }
+                if (c2.GetComponent<character>().health <= 0){ currentTurn++; }
+                else{ c2.GetComponent<character>().startTurn(); current = c2; }
                 c1.GetComponent<character>().endTurn();
             }
             if (currentTurn == 3){
-                if (c3.GetComponent<character>().health <= 0){
-                    currentTurn++;
-                }
-                else{
-                    c3.GetComponent<character>().startTurn();
-                    current = c3;
-                }
+                if (c3.GetComponent<character>().health <= 0){ currentTurn++; }
+                else{ c3.GetComponent<character>().startTurn(); current = c3; }
                 c2.GetComponent<character>().endTurn();
             }
             if (currentTurn == 4){
-                if (c4.GetComponent<character>().health <= 0){
-                    currentTurn++;
-                }
-                else{
-                    c4.GetComponent<character>().startTurn();
-                    current = c4;
-                }
+                if (c4.GetComponent<character>().health <= 0){ currentTurn++; }
+                else{ c4.GetComponent<character>().startTurn(); current = c4; }
                 c3.GetComponent<character>().endTurn();
             }
             if (currentTurn == 5){
@@ -188,26 +181,46 @@ public class GameController : MonoBehaviour
                         currentEnemy.GetComponent<enemyController>().attack(targ);
                         pTurn = true;
                     }
-                    else{
-                        aliveEnemies++;
-                    }
+                    else{ aliveEnemies++; }
             }
         }
     }
     
     public void pAttack(){
+        iMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-600, 1000);
         selectEnemy();
         action  ="attack";
     }
 
     public void pSpecial(){
-        if (current.GetComponent<character>().special > 4){
-            selectEnemy();
-        }
-        else{
-            current.GetComponent<character>().specialAttack(currentEnemy);
-        }
+        iMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-600, 1000);
+        if (current.GetComponent<character>().special > 4){ selectEnemy(); }
+        else{ current.GetComponent<character>().specialAttack(currentEnemy);  }
         action = "special";
+    }
+
+    public void pItems(){
+        foreach(KeyValuePair<string, int> i in items){
+            itemL1.text = "Potions: " + items["Potions"].ToString();
+            itemL2.text = "Elixer: " + items["Elixer"].ToString();
+            Debug.Log((i.Key, i.Value));
+        }
+        iMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-600, 50);
+    }
+
+    public void potion(){
+        if (items["Potions"] > 0){
+            action = "potion";
+            pselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(3, -250);
+            items["Potions"] -= 1;
+        }
+    }
+    public void elixer(){
+        if (items["Elixer"] > 0){
+            action = "elixer";
+            pselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(3, -250);
+            items["Elixer"] -= 1;
+        }
     }
 
     public void e1(){
@@ -221,9 +234,7 @@ public class GameController : MonoBehaviour
             selected = true;
             control();
         }
-        else{
-            wait = 0;
-        }
+        else{wait = 0;}
     }
     public void e3(){
         if (enumb > 2){
@@ -231,9 +242,7 @@ public class GameController : MonoBehaviour
             selected = true;
             control();
         }
-        else{
-            wait = 0;
-        }
+        else{wait = 0;}
     }
     public void e4(){
         if (enumb == 4){
@@ -241,10 +250,25 @@ public class GameController : MonoBehaviour
             selected = true;
             control();
         }
-        else{
-            wait = 0;
-        }
+        else{wait = 0;}
     }
+
+    public void p1(){
+        if (action == "potion"){c1.GetComponent<character>().health += 20;}   
+        if (action == "elixer"){c1.GetComponent<character>().special += 10;}   
+        control();}
+    public void p2(){
+        if (action == "potion"){c2.GetComponent<character>().health += 20;}   
+        if (action == "elixer"){c2.GetComponent<character>().special += 10;}   
+        control();}
+    public void p3(){
+        if (action == "potion"){c3.GetComponent<character>().health += 20;}   
+        if (action == "elixer"){c3.GetComponent<character>().special += 10;}   
+        control();}
+    public void p4(){
+        if (action == "potion"){c4.GetComponent<character>().health += 20;}   
+        if (action == "elixer"){c4.GetComponent<character>().special += 10;}   
+        control();}
 
     void selectEnemy(){
         if (aliveEnemies > 1){
@@ -269,14 +293,15 @@ public class GameController : MonoBehaviour
             }
             current.GetComponent<character>().specialAttack(currentEnemy);
         }
+        if (action == "potion" || action == "elixer"){
+            pselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(3, -500);
+            iMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1400, 50);
+            currentTurn += 1;
+        }
     }
 
     void back(){
-        if (wait < 10){
-            eselect.GetComponent<RawImage>().texture = invalid;
-        }
-        else{
-            eselect.GetComponent<RawImage>().texture = normal;
-        }
+        if (wait < 10){eselect.GetComponent<RawImage>().texture = invalid;}
+        else{eselect.GetComponent<RawImage>().texture = normal;}
     }
 }

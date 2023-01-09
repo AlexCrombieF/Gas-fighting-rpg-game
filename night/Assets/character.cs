@@ -38,6 +38,8 @@ public class character : MonoBehaviour
     }
 
     void Update(){
+        if (health > mHealth){ health = mHealth; }
+        if (special > mSpecial){ special = mSpecial; }
         wait++;
         rect.anchoredPosition = pos;
 
