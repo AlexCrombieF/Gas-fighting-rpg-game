@@ -82,12 +82,12 @@ public class GameController : MonoBehaviour
             healthbs[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-580, -950);
             healthbs[0].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
             healthbs[0].transform.localScale = new Vector2(0.8f, 2);
-            enemies[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-2f, 1);
+            enemies[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-2, 1);
 
             healthbs[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(-120, -950);
             healthbs[1].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
             healthbs[1].transform.localScale = new Vector2(0.8f, 2);
-            enemies[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(2f, 1);
+            enemies[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(2, 1);
         }
 
         if (enumb == 3){
