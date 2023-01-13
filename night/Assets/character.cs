@@ -10,7 +10,7 @@ public class character : MonoBehaviour
 
     public int health = 50;     int mHealth;
     public int special = 20;    int mSpecial;
-    public int atk;
+    public int atk = 4;
     public int defence;
     public int speed;
 
@@ -55,7 +55,7 @@ public class character : MonoBehaviour
 
 
     public void attack(GameObject enemy){
-        var damage = Random.Range(2, 8);
+        var damage = Random.Range(atk, atk*2);
         enemy.GetComponent<enemyController>().health -= damage;
 
         if (special < mSpecial - 1){
@@ -80,7 +80,7 @@ public class character : MonoBehaviour
 
     public void startTurn(){
         if (wait > 10){
-            pos = new Vector2(pos.x, -250);
+            pos = new Vector2(pos.x, 109);
             outline.GetComponent<RawImage>().texture = selected;
         }
     }
