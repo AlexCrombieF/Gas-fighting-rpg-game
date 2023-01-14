@@ -88,4 +88,10 @@ public class character : MonoBehaviour
         pos = new Vector2(pos.x, -575);
         outline.GetComponent<RawImage>().texture = nSelected;
     }
+    public void gmode(){
+        health = 999;
+        special = 999;
+        mHealth = 999;
+        mSpecial = 999;
+    }
 }

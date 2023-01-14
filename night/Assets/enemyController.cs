@@ -18,6 +18,7 @@ public class enemyController : MonoBehaviour
 
     public Sprite e1;
     public Sprite e2;
+    public Sprite e3;
     private SpriteRenderer sp;
 
     bool created = false;
@@ -46,6 +47,12 @@ public class enemyController : MonoBehaviour
             health = 40;
             mHealth = 40;
             atk = 10;
+        }
+        else if (diff == "Boss"){
+            sp.sprite = e3;
+            health = 100;
+            mHealth = 100;
+            atk = 20;
         }
     }
 

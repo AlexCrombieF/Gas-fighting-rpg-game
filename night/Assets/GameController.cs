@@ -12,8 +12,10 @@ public class GameController : MonoBehaviour
     int enumb;
     int currentTurn = 1;
     int wait = 10;
+    int j = 0;
 
     string action = "";
+    string difficulty = "";
 
     bool created;
     bool pTurn = true;
@@ -41,6 +43,8 @@ public class GameController : MonoBehaviour
     GameObject currentPlayer;
     GameObject targ;
 
+    GameObject room;
+
 
     // other
     public Texture invalid;
@@ -61,18 +65,17 @@ public class GameController : MonoBehaviour
 
     IDictionary<string, int> items = new Dictionary<string, int>();
     IDictionary<Vector3, bool> cleared = new Dictionary<Vector3, bool>(21);
+    IDictionary<Vector3, string> diff = new Dictionary<Vector3, string>(21);
+    IDictionary<Vector3, Light> lights = new Dictionary<Vector3, Light>(21);
 
 
     void Start(){
-        // other
-        enumb = Random.Range(2, 4);
-        normal = eselect.GetComponent<RawImage>().texture;
-
         // camera
         lowerhud = GameObject.Find("HUD lower");
         norm = GameObject.Find("Main Camera").GetComponent<Camera>();
         above = GameObject.Find("Camera").GetComponent<Camera>();
         above.enabled = false;
+
 
         // game objects
         c1 = GameObject.Find("C1 menu");
@@ -82,30 +85,89 @@ public class GameController : MonoBehaviour
         iMenu = GameObject.Find("ItemMenu");
         eselect = GameObject.Find("Enemy select");
         pselect = GameObject.Find("Player select");
+        room = GameObject.Find("room select");
         current = c1;
+
+    
+        // other
+        enumb = Random.Range(2, 4);
+        normal = eselect.GetComponent<RawImage>().texture;
 
         // items
         items.Add("Potions", 3);
         items.Add("Elixer", 2);
 
+
         // Filling cleared 
-        cleared.Add(new Vector3(10, 4.5f, 0), false); cleared.Add(new Vector3(-10, 4.5f, 0), false); cleared.Add(new Vector3(-30, 4.5f, 0), false); cleared.Add(new Vector3(-50, 4.5f, 0), false);
-        cleared.Add(new Vector3(-10, 4.5f, -20), false); cleared.Add(new Vector3(-30, 4.5f, -20), false); cleared.Add(new Vector3(-50, 4.5f, -20), false); cleared.Add(new Vector3(-70, 4.5f, -20), false);
-        cleared.Add(new Vector3(-10, 4.5f, -40), false); cleared.Add(new Vector3(-30, 4.5f, -40), false); cleared.Add(new Vector3(-50, 4.5f, -40), false); cleared.Add(new Vector3(-70, 4.5f, -40), false); cleared.Add(new Vector3(-90, 4.5f, -40), false);
-        cleared.Add(new Vector3(-30, 4.5f, -60), false); cleared.Add(new Vector3(-50, 4.5f, -60), false); cleared.Add(new Vector3(-70, 4.5f, -60), false); cleared.Add(new Vector3(-90, 4.5f, -60), false);
-        cleared.Add(new Vector3(-50, 4.5f, -80), false); cleared.Add(new Vector3(-70, 4.5f, -80), false); cleared.Add(new Vector3(-90, 4.5f, -80), false);
-        cleared.Add(new Vector3(-70, 4.5f, -100), false);        
+        cleared.Add(new Vector3(10, 4.5f, 0), false);       diff.Add(new Vector3(10, 4.5f, 0), "Easy");    
+        cleared.Add(new Vector3(-10, 4.5f, 0), false);      diff.Add(new Vector3(-10, 4.5f, 0), "Easy");
+        cleared.Add(new Vector3(-30, 4.5f, 0), false);      diff.Add(new Vector3(-30, 4.5f, 0), "Easy");
+        cleared.Add(new Vector3(-50, 4.5f, 0), false);      diff.Add(new Vector3(-50, 4.5f, 0), "Easy");
+        cleared.Add(new Vector3(-10, 4.5f, -20), false);    diff.Add(new Vector3(-10, 4.5f, -20), "Easy");
+        cleared.Add(new Vector3(-30, 4.5f, -20), false);    diff.Add(new Vector3(-30, 4.5f, -20), "Easy"); 
+        cleared.Add(new Vector3(-50, 4.5f, -20), false);    diff.Add(new Vector3(-50, 4.5f, -20), "Easy");
+
+        cleared.Add(new Vector3(-70, 4.5f, -20), false);    diff.Add(new Vector3(-70, 4.5f, -20), "Med");
+        cleared.Add(new Vector3(-10, 4.5f, -40), false);    diff.Add(new Vector3(-10, 4.5f, -40), "Med");
+        cleared.Add(new Vector3(-30, 4.5f, -40), false);    diff.Add(new Vector3(-30, 4.5f, -40), "Med");
+        cleared.Add(new Vector3(-50, 4.5f, -40), false);    diff.Add(new Vector3(-50, 4.5f, -40), "Med");
+        cleared.Add(new Vector3(-70, 4.5f, -40), false);    diff.Add(new Vector3(-70, 4.5f, -40), "Med");
+        cleared.Add(new Vector3(-90, 4.5f, -40), false);    diff.Add(new Vector3(-90, 4.5f, -40), "Med");
+
+        cleared.Add(new Vector3(-30, 4.5f, -60), false);    diff.Add(new Vector3(-30, 4.5f, -60), "Hard");
+        cleared.Add(new Vector3(-50, 4.5f, -60), false);    diff.Add(new Vector3(-50, 4.5f, -60), "Hard");
+        cleared.Add(new Vector3(-70, 4.5f, -60), false);    diff.Add(new Vector3(-70, 4.5f, -60), "Hard");
+        cleared.Add(new Vector3(-90, 4.5f, -60), false);    diff.Add(new Vector3(-90, 4.5f, -60), "Hard");    
+        cleared.Add(new Vector3(-50, 4.5f, -80), false);    diff.Add(new Vector3(-50, 4.5f, -80), "Hard");
+        cleared.Add(new Vector3(-70, 4.5f, -80), false);    diff.Add(new Vector3(-70, 4.5f, -80), "Hard");    
+        cleared.Add(new Vector3(-90, 4.5f, -80), false);    diff.Add(new Vector3(-90, 4.5f, -80), "Hard");
+        cleared.Add(new Vector3(-70, 4.5f, -100), false);   diff.Add(new Vector3(-70, 4.5f, -100), "Boss");
+
+
+        lights.Add(new Vector3(10, 4.5f, 0), GameObject.Find("base").GetComponent<Light>());
+        lights.Add(new Vector3(-10, 4.5f, 0), GameObject.Find("easy1").GetComponent<Light>());
+        lights.Add(new Vector3(-30, 4.5f, 0), GameObject.Find("easy2").GetComponent<Light>());
+        lights.Add(new Vector3(-50, 4.5f, 0), GameObject.Find("easy3").GetComponent<Light>());
+        lights.Add(new Vector3(-10, 4.5f, -20), GameObject.Find("easy4").GetComponent<Light>());
+        lights.Add(new Vector3(-30, 4.5f, -20), GameObject.Find("easy5").GetComponent<Light>());
+        lights.Add(new Vector3(-50, 4.5f, -20), GameObject.Find("easy6").GetComponent<Light>());
+
+        lights.Add(new Vector3(-70, 4.5f, -20), GameObject.Find("med1").GetComponent<Light>());
+        lights.Add(new Vector3(-10, 4.5f, -40), GameObject.Find("med2").GetComponent<Light>());
+        lights.Add(new Vector3(-30, 4.5f, -40), GameObject.Find("med3").GetComponent<Light>());
+        lights.Add(new Vector3(-50, 4.5f, -40), GameObject.Find("med4").GetComponent<Light>());
+        lights.Add(new Vector3(-70, 4.5f, -40), GameObject.Find("med5").GetComponent<Light>());
+        lights.Add(new Vector3(-90, 4.5f, -40), GameObject.Find("med6").GetComponent<Light>());
+
+        lights.Add(new Vector3(-30, 4.5f, -60), GameObject.Find("hard1").GetComponent<Light>());
+        lights.Add(new Vector3(-50, 4.5f, -60), GameObject.Find("hard2").GetComponent<Light>());
+        lights.Add(new Vector3(-70, 4.5f, -60), GameObject.Find("hard3").GetComponent<Light>());
+        lights.Add(new Vector3(-90, 4.5f, -60), GameObject.Find("hard4").GetComponent<Light>());
+        lights.Add(new Vector3(-50, 4.5f, -80), GameObject.Find("hard5").GetComponent<Light>());
+        lights.Add(new Vector3(-70, 4.5f, -80), GameObject.Find("hard6").GetComponent<Light>());
+        lights.Add(new Vector3(-90, 4.5f, -80), GameObject.Find("hard7").GetComponent<Light>());
+        lights.Add(new Vector3(-70, 4.5f, -100), GameObject.Find("boss").GetComponent<Light>());
     }
 
     void FixedUpdate(){
 
         // starts battle
+        if (!cleared[norm.GetComponent<RectTransform>().position]){
+            created = false;
+            battle = true;
+            cleared[norm.GetComponent<RectTransform>().position] = true;
+            difficulty = diff[norm.GetComponent<RectTransform>().position];
+        }
+
         if (created == false){
             enemies = new GameObject[4];
+            if (difficulty == "Boss") { enumb = 1; }
             for (int i = 0; i < enumb; i++){
                 enemies[i] = Instantiate(Resources.Load("Enemy")) as GameObject;
+                enemies[i].GetComponent<enemyController>().diff = difficulty;
                 healthbs[i] = Instantiate(Resources.Load("healthbar")) as GameObject;
                 enemies[i].GetComponent<enemyController>().setHealthBar(healthbs[i]);
+                enemies[i].transform.SetParent(norm.GetComponent<RectTransform>());
                 healthbs[i].transform.SetParent(upper.transform);
             }
             currentEnemy = enemies[0];
@@ -113,58 +175,58 @@ public class GameController : MonoBehaviour
                 healthbs[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-440, -950);
                 healthbs[0].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100f);
                 healthbs[0].transform.localScale = new Vector2(1, 2);
-                enemies[0].GetComponent<RectTransform>().anchoredPosition = new Vector3(2, 3.5f, 0);
+                enemies[0].GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 10);
             }
 
             if (enumb == 2){
                 healthbs[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-580, -950);
                 healthbs[0].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[0].transform.localScale = new Vector2(0.8f, 2);
-                enemies[0].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, -2.3f);
+                enemies[0].GetComponent<RectTransform>().localPosition = new Vector3(-2, 0, 10);
 
                 healthbs[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(-120, -950);
                 healthbs[1].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[1].transform.localScale = new Vector2(0.8f, 2);
-                enemies[1].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, 2.3f);
+                enemies[1].GetComponent<RectTransform>().localPosition = new Vector3(2, 0, 10);
             }
 
             if (enumb == 3){
                 healthbs[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-540, -950);
                 healthbs[0].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[0].transform.localScale = new Vector2(0.5f, 2);
-                enemies[0].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, -3.6f);
+                enemies[0].GetComponent<RectTransform>().localPosition = new Vector3(-4, 0, 10);
 
                 healthbs[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(-220, -950);
                 healthbs[1].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[1].transform.localScale = new Vector2(0.5f, 2);
-                enemies[1].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, 0);
+                enemies[1].GetComponent<RectTransform>().localPosition = new Vector3(0, 0, 10);
 
                 healthbs[2].GetComponent<RectTransform>().anchoredPosition = new Vector2(100, -950);
                 healthbs[2].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[2].transform.localScale = new Vector2(0.5f, 2);
-                enemies[2].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, 3.6f);
+                enemies[2].GetComponent<RectTransform>().localPosition = new Vector3(4, 0, 10);
             }
 
             if (enumb == 4){
                 healthbs[0].GetComponent<RectTransform>().anchoredPosition = new Vector2(-520, -950);
                 healthbs[0].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[0].transform.localScale = new Vector2(0.4f, 2);
-                enemies[0].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, -3.8f);
+                enemies[0].GetComponent<RectTransform>().localPosition = new Vector3(-4.5f, 0, 10);
 
                 healthbs[1].GetComponent<RectTransform>().anchoredPosition = new Vector2(-300, -950);
                 healthbs[1].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[1].transform.localScale = new Vector2(0.4f, 2);
-                enemies[1].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, -1.2f);
+                enemies[1].GetComponent<RectTransform>().localPosition = new Vector3(-1.5f, 0, 10);
 
                 healthbs[2].GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, -950);
                 healthbs[2].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[2].transform.localScale = new Vector2(0.4f, 2);
-                enemies[2].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, 1.2f);
+                enemies[2].GetComponent<RectTransform>().localPosition = new Vector3(1.5f, 0, 10);
 
                 healthbs[3].GetComponent<RectTransform>().anchoredPosition = new Vector2(140, -950);
                 healthbs[3].GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 25f);
                 healthbs[3].transform.localScale = new Vector2(0.4f, 2);
-                enemies[3].GetComponent<RectTransform>().position = new Vector3(2, 3.5f, 3.8f);            
+                enemies[3].GetComponent<RectTransform>().localPosition = new Vector3(4.5f, 0, 10);            
             }
             created = true;
             battle = true;
@@ -174,11 +236,36 @@ public class GameController : MonoBehaviour
         back();
 
 
+        j = 0;
+        for (int i = 0; i < enemies.Length; i++){
+            if (enemies[i] != null){
+                if (enemies[i].GetComponent<enemyController>().health > 0){
+                    j++;
+                }
+            }
+        }
+        if (j == 0){
+            battle = false;
+            for (int i = 0; i < 4; i++){
+                if (enemies[i] != null){
+                    Destroy(enemies[i]);
+                }
+            }
+            enemies = new GameObject[4];
+        }
+
+        foreach (KeyValuePair<Vector3, bool> kvp in cleared){
+            if (kvp.Value){
+                lights[kvp.Key].color = UnityEngine.Color.green;
+            }
+        }
+
         // handles player actions 
         if (battle){
             if (selected){
                 eselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -850);
             }
+
             if (pTurn){
                 if (currentTurn == 1){
                     if (c1.GetComponent<character>().health <= 0){ currentTurn++; }
@@ -222,18 +309,18 @@ public class GameController : MonoBehaviour
                         }
                 }
             }
+            room.GetComponent<RectTransform>().position = new Vector3(0, -800, 0);
         }
         else{
+            room.GetComponent<RectTransform>().localPosition = new Vector3(0, -24, 0);
             mforward = norm.GetComponent<RectTransform>().position + new Vector3(-20, 0, 0);
             mback = norm.GetComponent<RectTransform>().position + new Vector3(20, 0, 0);
-            mleft = norm.GetComponent<RectTransform>().position + new Vector3(-20, 0, 0);
-            mright = norm.GetComponent<RectTransform>().position + new Vector3(-20, 0, 0);
-            for (int i = 0; i < cleared.Count; i++){
-                if (cleared.keys.ElementAt(i).key == mforward){ mf = true;}
-                if (cleared.keys.ElementAt(i).key == mback){ mb = true;}
-                if (cleared.keys.ElementAt(i).key == mright){ mr = true;}
-                if (cleared.keys.ElementAt(i).key == mleft){ ml = true;}
-            }
+            mleft = norm.GetComponent<RectTransform>().position + new Vector3(0, 0, -20);
+            mright = norm.GetComponent<RectTransform>().position + new Vector3(0, 0, 20);
+            if (cleared.ContainsKey(mforward))  { mf = true;}   else {mf = false;}
+            if (cleared.ContainsKey(mback))  { mb = true;}      else {mb = false;}
+            if (cleared.ContainsKey(mright))  { mr = true;}     else {mr = false;}
+            if (cleared.ContainsKey(mleft))  { ml = true;}      else {ml = false;}
         }
     }
     
@@ -256,7 +343,6 @@ public class GameController : MonoBehaviour
         foreach(KeyValuePair<string, int> i in items){
             itemL1.text = "Potions: " + items["Potions"].ToString();
             itemL2.text = "Elixer: " + items["Elixer"].ToString();
-            Debug.Log((i.Key, i.Value));
         }
         iMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-600, 50);
     }
@@ -264,7 +350,7 @@ public class GameController : MonoBehaviour
     public void potion(){
         if (items["Potions"] > 0){
             action = "potion";
-            pselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(3, -250);
+            pselect.GetComponent<RectTransform>().localPosition = new Vector3(0, 109, 0);
             items["Potions"] -= 1;
         }
     }
@@ -274,6 +360,12 @@ public class GameController : MonoBehaviour
             pselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(3, -250);
             items["Elixer"] -= 1;
         }
+    }
+    public void godmode(){
+        c1.GetComponent<character>().gmode();
+        c2.GetComponent<character>().gmode();
+        c3.GetComponent<character>().gmode();
+        c4.GetComponent<character>().gmode();
     }
 
 
@@ -355,8 +447,8 @@ public class GameController : MonoBehaviour
             current.GetComponent<character>().specialAttack(currentEnemy);
         }
         if (action == "potion" || action == "elixer"){
-            pselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(1.5f, 109);
-            iMenu.GetComponent<RectTransform>().anchoredPosition = new Vector2(-1400, 50);
+            pselect.GetComponent<RectTransform>().localPosition = new Vector3(0, 1000, 0);
+            iMenu.GetComponent<RectTransform>().localPosition = new Vector3(0, 1000, 0);
             currentTurn += 1;
         }
     }
@@ -381,10 +473,24 @@ public class GameController : MonoBehaviour
 
 
     // player move
-    void movemenu(){
-        pmove.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 0);
-        //if (mf){
-
-        //}
+    public void moveforward(){
+        if (mf){
+            norm.GetComponent<RectTransform>().position += new Vector3(-20, 0, 0);
+        }
+    }
+    public void moveright(){
+        if (mr){
+            norm.GetComponent<RectTransform>().position += new Vector3(0, 0, 20);
+        }
+    }
+    public void moveleft(){
+        if (ml){
+            norm.GetComponent<RectTransform>().position += new Vector3(0, 0, -20);
+        }
+    }
+    public void moveback(){
+        if (mb){
+            norm.GetComponent<RectTransform>().position += new Vector3(20, 0, 0);
+        }
     }
 }

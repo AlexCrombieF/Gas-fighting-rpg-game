@@ -54,10 +54,11 @@ MonoBehaviour:
   atk: 0
   defence: 0
   speed: 0
-  diff: Hard
+  diff: Easy
   h: {fileID: 0}
   e1: {fileID: 21300000, guid: 7c9652488a009314492a61833f161ed8, type: 3}
   e2: {fileID: 21300000, guid: 6ba8841383b224e45a13299e5bbfdd85, type: 3}
+  e3: {fileID: 21300000, guid: f486e74ef649cfa41a1c326ab30d909a, type: 3}
 --- !u!222 &295321545930232834
 CanvasRenderer:
   m_ObjectHideFlags: 0
