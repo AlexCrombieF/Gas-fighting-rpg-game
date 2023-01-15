@@ -3055,7 +3055,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 347146017}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1949074122}
+        m_TargetAssemblyTypeName: GameController, Assembly-CSharp
+        m_MethodName: End
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &347146017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6873,6 +6885,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6952,6 +6965,102 @@ RectTransform:
   m_AnchoredPosition: {x: 10, y: 4.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!82 &963194229
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &966613953
 GameObject:
   m_ObjectHideFlags: 0
@@ -13925,6 +14034,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   upper: {fileID: 1920698640}
+  attack: {fileID: 8300000, guid: 866e47a0ca337c546a4daf8df444a1de, type: 3}
+  special: {fileID: 8300000, guid: a3d8df8aeb695ce44a5b344ad4b4c44e, type: 3}
+  boss: {fileID: 8300000, guid: 4c3d3187958462b4583651f88102456d, type: 3}
+  enemyAttack: {fileID: 8300000, guid: f2859171f53ebbd4bb182faf7cddbd0a, type: 3}
+  enemyDeath: {fileID: 8300000, guid: 95e9378436d78234aa5d73db41a8ecb7, type: 3}
+  footsteps: {fileID: 8300000, guid: 9267b5aa2ebd8d34eb9d542ba31aca45, type: 3}
+  change: {fileID: 8300000, guid: bb84c5baf9784554ebfb5b820ef6b4fe, type: 3}
+  select: {fileID: 8300000, guid: 36a365af2e072344da7bce29c91d0790, type: 3}
+  smusic: {fileID: 8300000, guid: 93ad5432f3902c146a3c42a263a857c0, type: 3}
+  bmusic: {fileID: 8300000, guid: 7b05e635bcb82034aaa3cc7bd69565d4, type: 3}
+  emusic: {fileID: 8300000, guid: 083be0f6231b0d54ba78e14250af54ba, type: 3}
   invalid: {fileID: 2800000, guid: e0d87841f3517e24ba4e9e6c541576d9, type: 3}
   itemL1: {fileID: 1205280594}
   itemL2: {fileID: 24479393}

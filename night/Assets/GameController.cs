@@ -59,6 +59,8 @@ public class GameController : MonoBehaviour
     public AudioClip select;
 
     public AudioClip smusic;
+    public AudioClip bmusic;
+    public AudioClip emusic;
 
 
     // other
@@ -110,6 +112,9 @@ public class GameController : MonoBehaviour
         // other
         enumb = Random.Range(2, 4);
         normal = eselect.GetComponent<RawImage>().texture;
+        sound.clip = smusic;
+        sound.Play(0);
+        sound.loop = true;
 
 
         // items
