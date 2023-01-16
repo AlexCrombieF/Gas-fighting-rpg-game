@@ -174,7 +174,6 @@ public class GameController : MonoBehaviour
     }
 
     void FixedUpdate(){
-        enumb = Random.Range(2, 5);
 
         // starts battle
         if (!cleared[norm.GetComponent<RectTransform>().position]){
@@ -185,6 +184,7 @@ public class GameController : MonoBehaviour
         }
 
         if (created == false){
+            enumb = Random.Range(2, 5);
             enemies = new GameObject[4];
             if (difficulty == "Boss") { enumb = 1; }
             for (int i = 0; i < enumb; i++){
