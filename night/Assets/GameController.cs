@@ -131,8 +131,8 @@ public class GameController : MonoBehaviour
 
         // Filling cleared 
         cleared.Add(new Vector3(10, 4.5f, 0), false);       diff.Add(new Vector3(10, 4.5f, 0), "Easy");    
-        cleared.Add(new Vector3(-10, 4.5f, 0), false);      diff.Add(new Vector3(-10, 4.5f, 0), "Boss");
-        cleared.Add(new Vector3(-30, 4.5f, 0), false);      diff.Add(new Vector3(-30, 4.5f, 0), "Easy");
+        cleared.Add(new Vector3(-10, 4.5f, 0), false);      diff.Add(new Vector3(-10, 4.5f, 0), "Easy");
+        cleared.Add(new Vector3(-30, 4.5f, 0), false);      diff.Add(new Vector3(-30, 4.5f, 0), "Boss");
         cleared.Add(new Vector3(-50, 4.5f, 0), false);      diff.Add(new Vector3(-50, 4.5f, 0), "Easy");
         cleared.Add(new Vector3(-10, 4.5f, -20), false);    diff.Add(new Vector3(-10, 4.5f, -20), "Easy");
         cleared.Add(new Vector3(-30, 4.5f, -20), false);    diff.Add(new Vector3(-30, 4.5f, -20), "Easy"); 
