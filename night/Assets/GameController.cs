@@ -23,6 +23,11 @@ public class GameController : MonoBehaviour
     bool battle = false;
     bool mf = false, mb = false, ml = false, mr = false;
 
+    public int c1mood = 0;
+    public int c2mood = 0;
+    public int c3mood = 0;
+    public int c4mood = 0;
+
 
     // game objects 
     public GameObject upper;
@@ -48,7 +53,8 @@ public class GameController : MonoBehaviour
 
 
     //Audio
-    AudioSource sound;
+    public AudioSource sound;
+    public AudioSource music;
     public AudioClip attack;
     public AudioClip special;
     public AudioClip boss;
@@ -99,6 +105,10 @@ public class GameController : MonoBehaviour
         c2 = GameObject.Find("C2 menu");
         c3 = GameObject.Find("C3 menu");
         c4 = GameObject.Find("C4 menu");
+        c1.GetComponent<character>().atk += c1mood;
+        c2.GetComponent<character>().atk += c2mood;
+        c3.GetComponent<character>().atk += c3mood;
+        c4.GetComponent<character>().atk += c4mood;
         iMenu = GameObject.Find("ItemMenu");
         eselect = GameObject.Find("Enemy select");
         pselect = GameObject.Find("Player select");
@@ -106,25 +116,22 @@ public class GameController : MonoBehaviour
         end = GameObject.Find("end");
         current = c1;
 
-        sound = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-
     
         // other
-        enumb = Random.Range(2, 4);
+        enumb = Random.Range(2, 5);
         normal = eselect.GetComponent<RawImage>().texture;
-        sound.clip = smusic;
-        sound.Play(0);
-        sound.loop = true;
+        music.clip = smusic;
+        music.Play();
 
 
         // items
-        items.Add("Potions", 6);
-        items.Add("Elixer", 3);
+        items.Add("Potions", 10);
+        items.Add("Elixer", 10);
 
 
         // Filling cleared 
         cleared.Add(new Vector3(10, 4.5f, 0), false);       diff.Add(new Vector3(10, 4.5f, 0), "Easy");    
-        cleared.Add(new Vector3(-10, 4.5f, 0), false);      diff.Add(new Vector3(-10, 4.5f, 0), "Easy");
+        cleared.Add(new Vector3(-10, 4.5f, 0), false);      diff.Add(new Vector3(-10, 4.5f, 0), "Boss");
         cleared.Add(new Vector3(-30, 4.5f, 0), false);      diff.Add(new Vector3(-30, 4.5f, 0), "Easy");
         cleared.Add(new Vector3(-50, 4.5f, 0), false);      diff.Add(new Vector3(-50, 4.5f, 0), "Easy");
         cleared.Add(new Vector3(-10, 4.5f, -20), false);    diff.Add(new Vector3(-10, 4.5f, -20), "Easy");
@@ -174,10 +181,10 @@ public class GameController : MonoBehaviour
     }
 
     void FixedUpdate(){
-        enumb = Random.Range(2, 5);
 
         // starts battle
         if (!cleared[norm.GetComponent<RectTransform>().position]){
+            enumb = Random.Range(2, 5);
             created = false;
             battle = true;
             cleared[norm.GetComponent<RectTransform>().position] = true;
@@ -186,7 +193,11 @@ public class GameController : MonoBehaviour
 
         if (created == false){
             enemies = new GameObject[4];
-            if (difficulty == "Boss") { enumb = 1; }
+            if (difficulty == "Boss") { 
+                enumb = 1; 
+                music.clip = bmusic;
+                music.Play();
+                }
             for (int i = 0; i < enumb; i++){
                 enemies[i] = Instantiate(Resources.Load("Enemy")) as GameObject;
                 enemies[i].GetComponent<enemyController>().diff = difficulty;
@@ -274,7 +285,11 @@ public class GameController : MonoBehaviour
             }
         }
         if (j == 0){
-            if (difficulty == "Boss") { end.GetComponent<RectTransform>().localPosition = new Vector3(0, 60, 0); }
+            if (difficulty == "Boss") { 
+                end.GetComponent<RectTransform>().localPosition = new Vector3(0, 60, 0); 
+                music.clip = emusic;
+                music.Play();
+                }
             battle = false;
             for (int i = 0; i < 4; i++){
                 if (enemies[i] != null){
@@ -333,12 +348,14 @@ public class GameController : MonoBehaviour
                         if (target == 2){targ = c2;}
                         if (target == 3){targ = c3;}
                         if (target == 4){targ = c4;}
-                        if (targ.GetComponent<character>().health > 0 && enemies[i].GetComponent<enemyController>().health > 0){
-                            enemies[i].GetComponent<enemyController>().attack(targ);
-                            if (difficulty != "Boss"){ sound.clip = enemyAttack; }
-                            else { sound.clip = boss;}
-                            sound.Play(20000);
-                            pTurn = true;
+                        if (enemies[i] != null){
+                            if (targ.GetComponent<character>().health > 0 && enemies[i].GetComponent<enemyController>().health > 0){
+                                enemies[i].GetComponent<enemyController>().attack(targ);
+                                if (difficulty != "Boss"){ sound.clip = enemyAttack; }
+                                else { sound.clip = boss;}
+                                sound.Play(20000);
+                                pTurn = true;
+                            }
                         }
                 }
             }
@@ -373,7 +390,8 @@ public class GameController : MonoBehaviour
     }
 
     public void pItems(){
-        sound.PlayOneShot(select, 0.7f);
+        sound.clip = select;
+        sound.Play();
         foreach(KeyValuePair<string, int> i in items){
             itemL1.text = "Potions: " + items["Potions"].ToString();
             itemL2.text = "Elixer: " + items["Elixer"].ToString();
@@ -382,7 +400,8 @@ public class GameController : MonoBehaviour
     }
 
     public void potion(){
-        sound.PlayOneShot(select, 0.7f);
+        sound.clip = select;
+        sound.Play();
         if (items["Potions"] > 0){
             action = "potion";
             pselect.GetComponent<RectTransform>().localPosition = new Vector3(0, 109, 0);
@@ -390,7 +409,8 @@ public class GameController : MonoBehaviour
         }
     }
     public void elixer(){
-        sound.PlayOneShot(select, 0.7f);
+        sound.clip = select;
+        sound.Play();
         if (items["Elixer"] > 0){
             action = "elixer";
             pselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(3, -250);
@@ -398,7 +418,8 @@ public class GameController : MonoBehaviour
         }
     }
     public void flee(){
-        sound.PlayOneShot(select, 1);
+        sound.clip = select;
+        sound.Play();
             for (int i = 0; i < 4; i++){
                 if (enemies[i] != null){
                     enemies[i].GetComponent<enemyController>().health = -1;
@@ -420,7 +441,8 @@ public class GameController : MonoBehaviour
             else if (cleared[mright] == true) { norm.GetComponent<RectTransform>().position += new Vector3(0, 0, 20); }
     }
     public void godmode(){
-        sound.PlayOneShot(change, 1);
+        sound.clip = change;
+        sound.Play();
         c1.GetComponent<character>().gmode();
         c2.GetComponent<character>().gmode();
         c3.GetComponent<character>().gmode();
@@ -430,39 +452,52 @@ public class GameController : MonoBehaviour
 
     // selecting enemies 
     public void e1(){
-        if (enemies[0].GetComponent<enemyController>().health > 0){
-            currentEnemy = enemies[0];
-            selected = true;
-            control();
+        if (enemies[0] != null){
+            if (enemies[0].GetComponent<enemyController>().health > 0){
+                currentEnemy = enemies[0];
+                selected = true;
+                control();
+            }
+            else{wait = 0;}
         }
         else{wait = 0;}
     }
     public void e2(){
-        if (enumb > 1 && enemies[1].GetComponent<enemyController>().health > 0){
-            currentEnemy = enemies[1];
-            selected = true;
-            control();
+        if (enemies[1] != null){
+            if (enumb > 1 && enemies[1].GetComponent<enemyController>().health > 0){
+                currentEnemy = enemies[1];
+                selected = true;
+                control();
+            }
+            else{wait = 0;}
         }
         else{wait = 0;}
     }
     public void e3(){
-        if (enumb > 2 && enemies[2].GetComponent<enemyController>().health > 0){
-            currentEnemy = enemies[2];
-            selected = true;
-            control();
+        if (enemies[2] != null){
+            if (enumb > 2 && enemies[2].GetComponent<enemyController>().health > 0){
+                currentEnemy = enemies[2];
+                selected = true;
+                control();
+            }
+            else{wait = 0;}
         }
         else{wait = 0;}
     }
     public void e4(){
-        if (enumb == 4 && enemies[3].GetComponent<enemyController>().health > 0){
-            currentEnemy = enemies[3];
-            selected = true;
-            control();
+        if (enemies[3] != null){
+            if (enumb == 4 && enemies[3].GetComponent<enemyController>().health > 0){
+                currentEnemy = enemies[3];
+                selected = true;
+                control();
+            }
+            else{wait = 0;}
         }
         else{wait = 0;}
     }
     void selectEnemy(){
-        sound.PlayOneShot(select, 1);
+        sound.clip = select;
+        sound.Play();
         if (enumb > 1){
             eselect.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, 109);
             selected = false;
@@ -498,18 +533,21 @@ public class GameController : MonoBehaviour
     void control(){
         if (action == "attack"){
             current.GetComponent<character>().attack(currentEnemy);
-            sound.PlayOneShot(attack, 1);
+            sound.clip = attack;
+            sound.Play();
             currentTurn += 1;
         }
         if (action == "special"){
              if (current.GetComponent<character>().special > 4){
-                sound.PlayOneShot(special, 1);
+                sound.clip = special;
+                sound.Play();
                 currentTurn += 1;
             }
             current.GetComponent<character>().specialAttack(currentEnemy);
         }
         if (action == "potion" || action == "elixer"){
-            sound.PlayOneShot(select, 0.7f);
+            sound.clip = select;
+            sound.Play();
             pselect.GetComponent<RectTransform>().localPosition = new Vector3(0, 1000, 0);
             iMenu.GetComponent<RectTransform>().localPosition = new Vector3(0, 1000, 0);
             currentTurn += 1;
@@ -522,7 +560,8 @@ public class GameController : MonoBehaviour
     }
 
     public void switchCamera(){
-        sound.PlayOneShot(change, 1);
+        sound.clip = change;
+        sound.Play();
         if (norm.enabled == true){
             norm.enabled = false;
             above.enabled = true;
@@ -544,25 +583,35 @@ public class GameController : MonoBehaviour
     public void moveforward(){
         if (mf){
             norm.GetComponent<RectTransform>().position += new Vector3(-20, 0, 0);
-            sound.PlayOneShot(footsteps, 1);
+            sound.clip = footsteps;
+            sound.Play();
         }
     }
     public void moveright(){
         if (mr){
             norm.GetComponent<RectTransform>().position += new Vector3(0, 0, 20);
-            sound.PlayOneShot(footsteps, 1);
+            sound.clip = footsteps;
+            sound.Play();
         }
     }
     public void moveleft(){
         if (ml){
             norm.GetComponent<RectTransform>().position += new Vector3(0, 0, -20);
-            sound.PlayOneShot(footsteps, 1);
+            sound.clip = footsteps;
+            sound.Play();
         }
     }
     public void moveback(){
         if (mb){
             norm.GetComponent<RectTransform>().position += new Vector3(20, 0, 0);
-            sound.PlayOneShot(footsteps, 1);
+            sound.clip = footsteps;
+            sound.Play();
         }
+    }
+    void OnEnable(){
+        c1mood = PlayerPrefs.GetInt("AAttack");
+        c2mood = PlayerPrefs.GetInt("BAttack");
+        c3mood = PlayerPrefs.GetInt("CAttack");
+        c4mood = PlayerPrefs.GetInt("DAttack");
     }
 }
