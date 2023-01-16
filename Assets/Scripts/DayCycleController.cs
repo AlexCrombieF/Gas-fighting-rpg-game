@@ -211,17 +211,15 @@ public class DayCycleController : MonoBehaviour
 
     public void NightclubOnClick()
     {
-        /*if (visitedPartyMembers < 3)
+        if (visitedPartyMembers < 3)
         {
             MoveToVisitAll();
         }
         else
-        {*/
+        {
             SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
             SceneManager.LoadScene("gasfighting dungoen map", LoadSceneMode.Additive);
-
-            //Transition to night
-        //}
+        }
     }
 
     public void DormsOnClick()

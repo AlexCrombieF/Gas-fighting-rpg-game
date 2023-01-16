@@ -23,6 +23,11 @@ public class GameController : MonoBehaviour
     bool battle = false;
     bool mf = false, mb = false, ml = false, mr = false;
 
+    int c1mood = 0;
+    int c2mood = 0;
+    int c3mood = 0;
+    int c4mood = 0;
+
 
     // game objects 
     public GameObject upper;
@@ -99,6 +104,10 @@ public class GameController : MonoBehaviour
         c2 = GameObject.Find("C2 menu");
         c3 = GameObject.Find("C3 menu");
         c4 = GameObject.Find("C4 menu");
+        c1.GetComponent<character>().atk += c1mood;
+        c2.GetComponent<character>().atk += c2mood;
+        c3.GetComponent<character>().atk += c3mood;
+        c4.GetComponent<character>().atk += c4mood;
         iMenu = GameObject.Find("ItemMenu");
         eselect = GameObject.Find("Enemy select");
         pselect = GameObject.Find("Player select");
@@ -564,5 +573,13 @@ public class GameController : MonoBehaviour
             norm.GetComponent<RectTransform>().position += new Vector3(20, 0, 0);
             sound.PlayOneShot(footsteps, 1);
         }
+    }
+
+    void OnEnable()
+    {
+        c1mood = PlayerPrefs.GetInt("AAttack");
+        c2mood = PlayerPrefs.GetInt("BAttack");
+        c3mood = PlayerPrefs.GetInt("CAttack");
+        c4mood = PlayerPrefs.GetInt("DAttack");
     }
 }
